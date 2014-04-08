@@ -8,8 +8,8 @@ namespace WumpusGame
 {
     public class Cave
     {
-        private static const int SIZE = 10;
+        //private const int SIZE = 10;
 
-        private char[][] map;
+        private char[,] map;
     }
 }

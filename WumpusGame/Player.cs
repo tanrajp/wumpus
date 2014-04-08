@@ -11,7 +11,7 @@ namespace WumpusGame
         public bool HasWeapon { get; set; }
         public bool IsAlive { get; set; }
         public int Gold { get; set; }
-        public Score score {get;set;}
+        //public Score score {get;set;}
 
         public Player()
         {
@@ -19,7 +19,6 @@ namespace WumpusGame
             IsAlive = true;
             Gold = 0;
         }
-
 
         public string Status()
         {
