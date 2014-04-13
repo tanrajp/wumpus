@@ -46,9 +46,10 @@ namespace WumpusGame
 
             while (player.IsAlive)
             {
-                cave.DisplayMap(player.GetPosition());
-                cave.GetRoomDescription();
-                Console.WriteLine(score.CurrentScore().ToString());
+                //cave.DisplayMap(player.GetPosition());
+                //cave.GetRoomDescription();
+                //Console.WriteLine(score.CurrentScore().ToString());
+                cave.DisplayDebugMap();
                 GetInput();
             }
 
