@@ -1,6 +1,0 @@
-C:\Users\Tanraj\Documents\Projects\WumpusGame\WumpusGame\bin\Debug\WumpusGame.exe.config
-C:\Users\Tanraj\Documents\Projects\WumpusGame\WumpusGame\obj\Debug\WumpusGame.csprojResolveAssemblyReference.cache
-C:\Users\Tanraj\Documents\Projects\WumpusGame\WumpusGame\bin\Debug\WumpusGame.exe
-C:\Users\Tanraj\Documents\Projects\WumpusGame\WumpusGame\bin\Debug\WumpusGame.pdb
-C:\Users\Tanraj\Documents\Projects\WumpusGame\WumpusGame\obj\Debug\WumpusGame.exe
-C:\Users\Tanraj\Documents\Projects\WumpusGame\WumpusGame\obj\Debug\WumpusGame.pdb
