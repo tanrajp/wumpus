@@ -14,84 +14,50 @@ namespace WumpusGame
         private const double GOLD = 0.15;
         private const double WEAPON = 0.15;
 
-        private char[,] map;
+        private RoomType[,] map;
 
-        private char Wall = '#';
-        private char UE = '?';
-        private char EE = '.';
-        private char Ent = '^';
-        private char Weap = 'W';
-        private char G = '$';
-        private char WUMP = 'E';
+        [Flags]
+        enum RoomType
+        {
+            Empty = 0,
+            UnExplored = 2,
+            Explored = 4,
+            Wall = 6,
+            Entrance = 8,
+            Weapon = 10,
+            Gold = 12
+        }
 
         public Cave()
         {
-            map = new char[SIZE + 2, SIZE + 2];
+            map = new RoomType[SIZE + 2, SIZE + 2];
         }
 
-        public void InitialiseMap()
+        private void SetUpWalls()
         {
-            map = new char[SIZE + 2, SIZE + 2]
+            //Vertical Walls
+            for (int y = 0; y < map.GetLength(0); y++)
             {
-                {Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall},
-                {Wall,UE,UE,UE,UE,UE,UE,UE,UE,UE,UE,Wall},
-                {Wall,UE,UE,UE,UE,UE,UE,UE,UE,UE,UE,Wall},
-                {Wall,UE,UE,UE,UE,UE,UE,UE,UE,UE,UE,Wall},
-                {Wall,UE,UE,UE,UE,UE,UE,UE,UE,UE,UE,Wall},
-                {Wall,UE,UE,UE,UE,UE,UE,UE,UE,UE,UE,Wall},
-                {Wall,UE,UE,UE,UE,UE,UE,UE,UE,UE,UE,Wall},
-                {Wall,UE,UE,UE,UE,UE,UE,UE,UE,UE,UE,Wall},
-                {Wall,UE,UE,UE,UE,UE,UE,UE,UE,UE,UE,Wall},
-                {Wall,UE,UE,UE,UE,UE,UE,UE,UE,UE,UE,Wall},
-                {Wall,UE,UE,UE,UE,UE,UE,UE,UE,UE,UE,Wall},
-                {Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall,Wall}
-            };
-        }
-
-        public void CalculateWumpusRooms()
-        {
-            double numOfRoms = Math.Ceiling(SIZE * WUMPUS);
-            int xc=0;
-            int yc=0;
-            int i = 1;
-            while (i <= numOfRoms)
-            {
-                CalculateCoordinates(out xc, out yc);
+                map[0, y] = RoomType.Wall;
+                map[9, y] = RoomType.Wall;
             }
-            map[xc, yc] = WUMP;
+
+            //Horizontal Walls
+            for (int x = 0; x < map.GetLength(1); x++)
+            {
+                map[x, 0] = RoomType.Wall;
+                map[x, 9] = RoomType.Wall;
+            }
+        }
+
+        private void SetWumpusRooms()
+        {
+            int numOfRooms = Convert.ToInt32(SIZE * WUMPUS);
+        }
+
+        public void DisplayDebugMap()
+        {
             
-        }
-
-        private void CalculateCoordinates(out int xcoord, out int ycoord)
-        {
-            int minVal = 1;
-            int maxVal = SIZE;
-
-            var r = new Random();
-            int x = r.Next(minVal, maxVal);
-            int y = r.Next(minVal, maxVal);
-
-            while (map[x,y] != '#')
-            {
-                x = r.Next(minVal, maxVal);
-                y = r.Next(minVal, maxVal);
-            }
-            xcoord = x;
-            ycoord = y;
-
-        }
-
-
-        public void DisplayFullMap()
-        {
-            for (int i = 0; i < map.GetLength(1); i++)
-            {
-                for (int j = 0; j < map.GetLength(1); j++)
-                {
-                    Console.Write(map[i, j]);
-                }
-                Console.WriteLine();
-            }
         }
 
         public void DisplayMap(int playerPosition)
