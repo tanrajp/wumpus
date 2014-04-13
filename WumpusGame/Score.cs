@@ -8,5 +8,17 @@ namespace WumpusGame
 {
     class Score
     {
+
+        private int currentScore;
+
+        public Score()
+        {
+            currentScore = 0;
+        }
+
+        public int CurrentScore()
+        {
+            return currentScore;
+        }
     }
 }

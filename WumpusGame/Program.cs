@@ -20,54 +20,37 @@ namespace WumpusGame
 
         private static void GetInput()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Enter Move (? for help) >");
+            string input = Console.ReadLine();
+            switch (input)
+            {
+                case "?":
+                    DisplayHelp();
+                    break;
+                case "x":
+                    System.Environment.Exit(0);
+                    break;
+                default:
+                    Console.WriteLine("Default");
+                    break;
+            }
         }
 
         static void Main(string[] args)
         {
             Player player = new Player();
             Cave cave = new Cave();
+            Score score = new Score();
 
             Console.WriteLine("Wumpus Game");
 
             while (player.IsAlive)
             {
                 cave.DisplayMap(player.GetPosition());
+                cave.GetRoomDescription();
+                Console.WriteLine(score.CurrentScore().ToString());
                 GetInput();
             }
-            
-            
-            
-            
-            
-            
-            //cave.InitialiseMap();
-            //cave.CalculateWumpusRooms();
-            //cave.DisplayFullMap();
-
-
-            //while (player.IsAlive)
-            //{
-            //    Console.WriteLine(player.Status());
-            //    Console.WriteLine("Enter Move (? for help) >");
-            //    string input = Console.ReadLine();
-            //    switch (input)
-            //    {
-            //        case "?":
-            //            DisplayHelp();
-            //            break;
-            //        case "x":
-            //            System.Environment.Exit(0);
-            //            break;
-            //        default:
-            //            Console.WriteLine("Default");
-            //            break;
-            //    }
-
-            //}
-
-            
-
 
 
             Console.ReadLine();

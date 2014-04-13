@@ -98,5 +98,10 @@ namespace WumpusGame
         {
             throw new NotImplementedException();
         }
+
+        public void GetRoomDescription()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
