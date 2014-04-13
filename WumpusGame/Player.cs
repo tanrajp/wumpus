@@ -24,5 +24,10 @@ namespace WumpusGame
         {
             return string.Format(@"[{0} points earned] {1}", -1, HasWeapon ? "You are armed and dangerous." : "You are weaponless.");
         }
+
+        public int GetPosition()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

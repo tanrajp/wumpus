@@ -18,35 +18,53 @@ namespace WumpusGame
             Console.WriteLine("X exit game");
         }
 
-        private static void Input()
+        private static void GetInput()
         {
-
+            throw new NotImplementedException();
         }
 
         static void Main(string[] args)
         {
             Player player = new Player();
+            Cave cave = new Cave();
+
             Console.WriteLine("Wumpus Game");
 
             while (player.IsAlive)
             {
-                Console.WriteLine(player.Status());
-                Console.WriteLine("Enter Move (? for help) >");
-                string input = Console.ReadLine();
-                switch (input)
-                {
-                    case "?":
-                        DisplayHelp();
-                        break;
-                    case "x":
-                        System.Environment.Exit(0);
-                        break;
-                    default:
-                        Console.WriteLine("Default");
-                        break;
-                }
-
+                cave.DisplayMap(player.GetPosition());
+                GetInput();
             }
+            
+            
+            
+            
+            
+            
+            //cave.InitialiseMap();
+            //cave.CalculateWumpusRooms();
+            //cave.DisplayFullMap();
+
+
+            //while (player.IsAlive)
+            //{
+            //    Console.WriteLine(player.Status());
+            //    Console.WriteLine("Enter Move (? for help) >");
+            //    string input = Console.ReadLine();
+            //    switch (input)
+            //    {
+            //        case "?":
+            //            DisplayHelp();
+            //            break;
+            //        case "x":
+            //            System.Environment.Exit(0);
+            //            break;
+            //        default:
+            //            Console.WriteLine("Default");
+            //            break;
+            //    }
+
+            //}
 
             
 
@@ -54,5 +72,7 @@ namespace WumpusGame
 
             Console.ReadLine();
         }
+
+
     }
 }

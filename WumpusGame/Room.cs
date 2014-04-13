@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace WumpusGame
 {
-    class Room
+    public abstract class Room
     {
+        public int Xloc { get; set; }
+        public int Yloc { get; set; }
+        public string RoomType { get; set; }
+        public string Description { get; set; }
+        public char RommChar { get; set; }
+
     }
 }
