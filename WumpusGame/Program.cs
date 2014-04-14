@@ -40,7 +40,6 @@ namespace WumpusGame
         {
             Player player = new Player();
             Cave cave = new Cave();
-            Score score = new Score();
 
             Console.WriteLine("Wumpus Game");
 
@@ -48,7 +47,7 @@ namespace WumpusGame
             {
                 //cave.DisplayMap(player.GetPosition());
                 //cave.GetRoomDescription();
-                //Console.WriteLine(score.CurrentScore().ToString());
+                player.Status();
                 cave.DisplayDebugMap();
                 GetInput();
             }

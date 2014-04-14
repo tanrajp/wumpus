@@ -25,14 +25,32 @@ namespace WumpusGame
             Wall = 6,
             Entrance = 8,
             Weapon = 10,
-            Gold = 12
+            Gold = 12,
+            Wumpus=14,
+            All = None|UnExplored|Explored|Wall|Entrance|Weapon|Gold|Wumpus
         }
 
         public Cave()
         {
             map = new RoomType[SIZE + 2, SIZE + 2];
+            InitialiseCave();
+        }
+
+        private void InitialiseCave()
+        {
             SetUpWalls();
-            //SetWumpusRooms();
+            SetAllUnexplored();
+        }
+
+        private void SetAllUnexplored()
+        {
+            for (int i = 1; i < 10; i++)
+            {
+                for (int j = 1; j < 10; j++)
+                {
+                    map[i, j] = RoomType.UnExplored;
+                }
+            }
         }
 
         private void SetUpWalls()
@@ -55,6 +73,37 @@ namespace WumpusGame
         private void SetWumpusRooms()
         {
             int numOfRooms = Convert.ToInt32(SIZE * WUMPUS);
+            int[] xcords = CalculateArrayCoordinates(numOfRooms);
+            int[] ycords = CalculateArrayCoordinates(numOfRooms);
+
+            for (int i = 0; i < numOfRooms; i++)
+            {
+                while (!((map[xcords[i], ycords[i]] & RoomType.All) != 0))
+                {
+                    map[xcords[i], ycords[i]] = RoomType.Wumpus;
+                }
+            }
+
+        }
+
+        private int GetRandomNumber()
+        {
+            var r = new Random();
+            return r.Next(1, 9);
+        }
+
+        private int[] CalculateArrayCoordinates(int size)
+        {
+            int[] arr = new int[size];
+            int index = 0;
+
+            while (index < size)
+            {
+                arr[index] = GetRandomNumber();
+                index++;
+            }
+
+            return arr;
         }
 
         public void DisplayDebugMap()
@@ -85,24 +134,24 @@ namespace WumpusGame
             if ((r & RoomType.Wall) == RoomType.Wall)
             {
                 Console.Write('#');
-            }else
-            if ((r & RoomType.None) == RoomType.None)
+            }
+            else if ((r & RoomType.None) == RoomType.None)
             {
                 Console.Write('.');
-            }else
-            if ((r & RoomType.UnExplored) == RoomType.UnExplored)
+            }
+            else if ((r & RoomType.UnExplored) == RoomType.UnExplored)
             {
                 Console.Write('?');
-            }else
-            if ((r & RoomType.Explored) == RoomType.Explored)
+            }
+            else if ((r & RoomType.Explored) == RoomType.Explored)
             {
-                Console.Write('?');
-            }else
-            if ((r & RoomType.Weapon) == RoomType.Weapon)
+                Console.Write('.');
+            }
+            else if ((r & RoomType.Weapon) == RoomType.Weapon)
             {
                 Console.Write('W');
-            }else
-            if ((r & RoomType.Gold) == RoomType.Gold)
+            }
+            else if ((r & RoomType.Gold) == RoomType.Gold)
             {
                 Console.Write('$');
             }
