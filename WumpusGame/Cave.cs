@@ -20,33 +20,34 @@ namespace WumpusGame
         enum RoomType
         {
             None = 0,
-            UnExplored = 2,
-            Explored = 4,
-            Wall = 6,
+            UnExplored = 1,
+            Explored = 2,
+            Wall = 4,
             Entrance = 8,
-            Weapon = 10,
-            Gold = 12,
-            Wumpus=14,
+            Weapon = 16,
+            Gold = 32,
+            Wumpus=64,
             All = None|UnExplored|Explored|Wall|Entrance|Weapon|Gold|Wumpus
         }
 
         public Cave()
         {
-            map = new RoomType[SIZE + 2, SIZE + 2];
+            
             InitialiseCave();
         }
-
+        
         private void InitialiseCave()
         {
+            map = new RoomType[SIZE + 2, SIZE + 2];
             SetUpWalls();
             SetAllUnexplored();
         }
 
         private void SetAllUnexplored()
         {
-            for (int i = 1; i < 10; i++)
+            for (int i = 1; i <= 10; i++)
             {
-                for (int j = 1; j < 10; j++)
+                for (int j = 1; j <= 10; j++)
                 {
                     map[i, j] = RoomType.UnExplored;
                 }
@@ -108,11 +109,12 @@ namespace WumpusGame
 
         public void DisplayDebugMap()
         {
-            for (int i = 0; i < map.GetLength(0); i++)
+            for (int i = 0; i < map.GetLength(1); i++)
             {
-                for (int j = 0; j < map.GetLength(0); j++)
+                for (int j = 0; j < map.GetLength(1); j++)
                 {
-                    PrintRoomChar(i,j);
+                    PrintRoomChar(i, j);
+                    Console.Write(' ');
                 }
                 Console.WriteLine();
             }
@@ -130,30 +132,75 @@ namespace WumpusGame
 
         private void PrintRoomChar(int x, int y)
         {
-            RoomType r = map[x,y];
+            RoomType r = map[x, y];
+            if (r.HasFlag(RoomType.UnExplored))
+            {
+                Console.Write('?');
+            }
+            else if (r.HasFlag(RoomType.Explored))
+            {
+                Console.Write('.');
+            }
+            else if (r.HasFlag(RoomType.Wall))
+            {
+                Console.Write('#');
+            }
+            else if (r.HasFlag(RoomType.Entrance))
+            {
+                Console.Write('^');
+            }
+            else if (r.HasFlag(RoomType.Weapon))
+            {
+                Console.Write('W');
+            }
+            else if (r.HasFlag(RoomType.Gold))
+            {
+                Console.Write('$');
+            }
+            else if (r.HasFlag(RoomType.Wumpus))
+            {
+                Console.Write('E');
+            }
+            else if (r.HasFlag(RoomType.None))
+            {
+                Console.Write('~');
+            }
+        }
+
+        private void PrintRoomChar2(int x, int y)
+        {
+            RoomType r = map[x, y];
+            if ((r & RoomType.UnExplored) == RoomType.UnExplored)
+            {
+                Console.Write('?');
+            }
+            if ((r & RoomType.Explored) == RoomType.Explored)
+            {
+                Console.Write('.');
+            }
             if ((r & RoomType.Wall) == RoomType.Wall)
             {
                 Console.Write('#');
             }
-            else if ((r & RoomType.None) == RoomType.None)
+            if ((r & RoomType.Entrance) == RoomType.Entrance)
             {
-                Console.Write('.');
+                Console.Write('^');
             }
-            else if ((r & RoomType.UnExplored) == RoomType.UnExplored)
-            {
-                Console.Write('?');
-            }
-            else if ((r & RoomType.Explored) == RoomType.Explored)
-            {
-                Console.Write('.');
-            }
-            else if ((r & RoomType.Weapon) == RoomType.Weapon)
+            if ((r & RoomType.Weapon) == RoomType.Weapon)
             {
                 Console.Write('W');
             }
-            else if ((r & RoomType.Gold) == RoomType.Gold)
+            if ((r & RoomType.Gold) == RoomType.Gold)
             {
                 Console.Write('$');
+            }
+            if ((r & RoomType.Wumpus) == RoomType.Wumpus)
+            {
+                Console.Write('E');
+            }
+            if ((r & RoomType.None) == RoomType.None)
+            {
+                Console.Write('~');
             }
         }
     }

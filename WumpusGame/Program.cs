@@ -43,14 +43,16 @@ namespace WumpusGame
 
             Console.WriteLine("Wumpus Game");
 
-            while (player.IsAlive)
-            {
-                //cave.DisplayMap(player.GetPosition());
-                //cave.GetRoomDescription();
-                player.Status();
-                cave.DisplayDebugMap();
-                GetInput();
-            }
+            cave.DisplayDebugMap();
+
+            //while (player.IsAlive)
+            //{
+            //    //cave.DisplayMap(player.GetPosition());
+            //    //cave.GetRoomDescription();
+            //    //player.Status();
+            //    cave.DisplayDebugMap();
+            //    //GetInput();
+            //}
 
 
             Console.ReadLine();
