@@ -27,7 +27,8 @@ namespace WumpusGame
             Weapon = 16,
             Gold = 32,
             Wumpus=64,
-            All = None|UnExplored|Explored|Wall|Entrance|Weapon|Gold|Wumpus
+            Trap = 128,
+            All = None|UnExplored|Explored|Wall|Entrance|Weapon|Gold|Wumpus|Trap
         }
 
         public Cave()
@@ -39,8 +40,17 @@ namespace WumpusGame
         private void InitialiseCave()
         {
             map = new RoomType[SIZE + 2, SIZE + 2];
+            SetUpCave();
+
+        }
+
+        private void SetUpCave()
+        {
             SetUpWalls();
-            SetAllUnexplored();
+            SetUpRoom(RoomType.Wumpus, WUMPUS);
+            SetUpRoom(RoomType.Trap, TRAP);
+            SetUpRoom(RoomType.Gold, GOLD);
+            SetUpRoom(RoomType.Weapon, WEAPON);
         }
 
         private void SetAllUnexplored()
@@ -71,26 +81,29 @@ namespace WumpusGame
             }
         }
 
-        private void SetWumpusRooms()
+        private void SetUpRoom(RoomType rt, double roomnums)
         {
-            int numOfRooms = Convert.ToInt32(SIZE * WUMPUS);
-            int[] xcords = CalculateArrayCoordinates(numOfRooms);
-            int[] ycords = CalculateArrayCoordinates(numOfRooms);
+            int numOfRooms = Convert.ToInt32((SIZE * SIZE) * roomnums);
+            int xcoord, ycoord, index = 0;
 
-            for (int i = 0; i < numOfRooms; i++)
+            while (index < numOfRooms)
             {
-                while (!((map[xcords[i], ycords[i]] & RoomType.All) != 0))
-                {
-                    map[xcords[i], ycords[i]] = RoomType.Wumpus;
-                }
-            }
+                xcoord = GetRandomNumber();
+                ycoord = GetRandomNumber();
 
+                if (!((map[xcoord, ycoord] & RoomType.All) != 0))
+                {
+                    map[xcoord, ycoord] = rt;
+                    index++;
+                }
+
+            }
         }
 
         private int GetRandomNumber()
         {
             var r = new Random();
-            return r.Next(1, 9);
+            return r.Next(1, 11);
         }
 
         private int[] CalculateArrayCoordinates(int size)
@@ -161,44 +174,11 @@ namespace WumpusGame
             {
                 Console.Write('E');
             }
+            else if (r.HasFlag(RoomType.Trap))
+            {
+                Console.Write('T');
+            }
             else if (r.HasFlag(RoomType.None))
-            {
-                Console.Write('~');
-            }
-        }
-
-        private void PrintRoomChar2(int x, int y)
-        {
-            RoomType r = map[x, y];
-            if ((r & RoomType.UnExplored) == RoomType.UnExplored)
-            {
-                Console.Write('?');
-            }
-            if ((r & RoomType.Explored) == RoomType.Explored)
-            {
-                Console.Write('.');
-            }
-            if ((r & RoomType.Wall) == RoomType.Wall)
-            {
-                Console.Write('#');
-            }
-            if ((r & RoomType.Entrance) == RoomType.Entrance)
-            {
-                Console.Write('^');
-            }
-            if ((r & RoomType.Weapon) == RoomType.Weapon)
-            {
-                Console.Write('W');
-            }
-            if ((r & RoomType.Gold) == RoomType.Gold)
-            {
-                Console.Write('$');
-            }
-            if ((r & RoomType.Wumpus) == RoomType.Wumpus)
-            {
-                Console.Write('E');
-            }
-            if ((r & RoomType.None) == RoomType.None)
             {
                 Console.Write('~');
             }

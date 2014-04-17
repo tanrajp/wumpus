@@ -45,14 +45,14 @@ namespace WumpusGame
 
             cave.DisplayDebugMap();
 
-            //while (player.IsAlive)
-            //{
-            //    //cave.DisplayMap(player.GetPosition());
-            //    //cave.GetRoomDescription();
-            //    //player.Status();
-            //    cave.DisplayDebugMap();
-            //    //GetInput();
-            //}
+            while (player.IsAlive)
+            {
+                //cave.DisplayMap(player.GetPosition());
+                //cave.GetRoomDescription();
+                //player.Status();
+                cave.DisplayDebugMap();
+                //GetInput();
+            }
 
 
             Console.ReadLine();
