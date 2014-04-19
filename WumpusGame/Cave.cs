@@ -28,7 +28,8 @@ namespace WumpusGame
             Gold = 32,
             Wumpus=64,
             Trap = 128,
-            All = None|UnExplored|Explored|Wall|Entrance|Weapon|Gold|Wumpus|Trap
+            Player = 256,
+            All = None|UnExplored|Explored|Wall|Entrance|Weapon|Gold|Wumpus|Trap|Player
         }
 
         public Cave()
@@ -46,11 +47,28 @@ namespace WumpusGame
 
         private void SetUpCave()
         {
+            //SetAllUnexplored();
             SetUpWalls();
             SetUpRoom(RoomType.Wumpus, WUMPUS);
             SetUpRoom(RoomType.Trap, TRAP);
             SetUpRoom(RoomType.Gold, GOLD);
             SetUpRoom(RoomType.Weapon, WEAPON);
+            SetEntrance();
+        }
+
+        private void SetEntrance()
+        {
+            int ycoord = 10;
+
+            for (int i = 1; i < 11; i++)
+            {
+                if (!((map[i, ycoord] & RoomType.All) != 0))
+                {
+                    map[ycoord, i] = RoomType.Entrance;
+                    break;
+                }
+            }
+
         }
 
         private void SetAllUnexplored()
@@ -93,7 +111,7 @@ namespace WumpusGame
 
                 if (!((map[xcoord, ycoord] & RoomType.All) != 0))
                 {
-                    map[xcoord, ycoord] = rt;
+                    map[xcoord, ycoord] = rt | RoomType.UnExplored;
                     index++;
                 }
 
@@ -120,32 +138,89 @@ namespace WumpusGame
             return arr;
         }
 
-        public void DisplayDebugMap()
+        public int GetEntranceCoord()
+        {
+            int xcord = 10;
+            int ycord = 0;
+
+            for (int i = 0; i < 12; i++)
+            {
+                if (map[xcord, i].HasFlag(RoomType.Entrance))
+                {
+                    ycord = i;
+                }
+            }
+            return ycord;
+        }
+
+        public void TestMap()
         {
             for (int i = 0; i < map.GetLength(1); i++)
             {
                 for (int j = 0; j < map.GetLength(1); j++)
                 {
-                    PrintRoomChar(i, j);
+                    Console.Write("(" + i + "," + j + ")");
                     Console.Write(' ');
                 }
                 Console.WriteLine();
             }
         }
 
-        public void DisplayMap(int playerPosition)
+        public void DisplayDebugMap()
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < map.GetLength(1); i++)
+            {
+                for (int j = 0; j < map.GetLength(1); j++)
+                {
+                    PrintRoomChar(i, j,map);
+                    Console.Write(' ');
+                }
+                Console.WriteLine();
+            }
         }
 
-        public void GetRoomDescription()
+        public void DisplayMap(int xpos, int ypos)
         {
-            throw new NotImplementedException();
+            RoomType[,] view = new RoomType[3,3];
+
+            view[0, 0] = map[xpos-1, ypos - 1];
+            view[0, 1] = map[xpos-1, ypos];
+            view[0, 2] = map[xpos-1, ypos + 1];
+
+            view[1, 0] = map[xpos, ypos-1];
+            view[1, 1] = map[xpos, ypos] | RoomType.Player;
+            view[1, 2] = map[xpos, ypos+1];
+
+            view[2, 0] = map[xpos + 1, ypos - 1];
+            view[2, 1] = map[xpos + 1, ypos];
+            view[2, 2] = map[xpos + 1, ypos + 1];
+
+            for (int i = 0; i < view.GetLength(1); i++)
+            {
+                for (int j = 0; j < view.GetLength(1); j++)
+                {
+                    if (view[i, j].HasFlag(RoomType.Player))
+                    {
+                        Console.Write("@");
+                    }
+                    else
+                    {
+                        PrintRoomChar(i, j, view);
+                    }
+                    Console.Write(' ');
+                }
+                Console.WriteLine();
+            }
+
         }
 
-        private void PrintRoomChar(int x, int y)
+        public void GetRoomDescription(int x, int y)
         {
-            RoomType r = map[x, y];
+        }
+
+        private void PrintRoomChar(int x, int y,RoomType[,] room)
+        {
+            RoomType r = room[x, y];
             if (r.HasFlag(RoomType.UnExplored))
             {
                 Console.Write('?');
@@ -178,10 +253,20 @@ namespace WumpusGame
             {
                 Console.Write('T');
             }
+            else if (r.HasFlag(RoomType.Player))
+            {
+                Console.WriteLine("@");
+            }
             else if (r.HasFlag(RoomType.None))
             {
-                Console.Write('~');
+                Console.Write('?');
             }
+
+        }
+
+        internal void GetEnvironmentDescription()
+        {
+            throw new NotImplementedException();
         }
     }
 }

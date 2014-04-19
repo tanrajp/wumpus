@@ -38,20 +38,19 @@ namespace WumpusGame
 
         static void Main(string[] args)
         {
-            Player player = new Player();
             Cave cave = new Cave();
+            Player player = new Player(10, cave.GetEntranceCoord());
 
-            Console.WriteLine("Wumpus Game");
-
-            cave.DisplayDebugMap();
+            Console.WriteLine("Welcome to the Wumpus Game.");
 
             while (player.IsAlive)
             {
-                //cave.DisplayMap(player.GetPosition());
-                //cave.GetRoomDescription();
-                //player.Status();
-                cave.DisplayDebugMap();
-                //GetInput();
+                cave.DisplayMap(player.GetXpos(), player.GetYPos());
+                cave.GetRoomDescription();
+                cave.GetEnvironmentDescription();
+                Console.WriteLine(player.Status());
+                //cave.DisplayDebugMap();
+                GetInput();
             }
 
 
