@@ -121,7 +121,7 @@ namespace WumpusGame
         private int GetRandomNumber()
         {
             var r = new Random();
-            return r.Next(1, 11);
+            return r.Next(1, SIZE+1);
         }
 
         private int[] CalculateArrayCoordinates(int size)
@@ -216,6 +216,28 @@ namespace WumpusGame
 
         public void GetRoomDescription(int x, int y)
         {
+            RoomType r = map[x, y];
+
+            if (r.HasFlag(RoomType.Entrance))
+            {
+                Console.WriteLine("You are at the entrance");
+            }
+            else if (r.HasFlag(RoomType.Gold))
+            {
+                Console.WriteLine("Before you lies Gold");
+            }
+            else if (r.HasFlag(RoomType.Trap))
+            {
+                Console.WriteLine("You died");
+            }
+            else if (r.HasFlag(RoomType.Weapon))
+            {
+                Console.WriteLine("You see a weapon");
+            }
+            else if (r.HasFlag(RoomType.Wumpus))
+            {
+                Console.WriteLine("You died");
+            }
         }
 
         private void PrintRoomChar(int x, int y,RoomType[,] room)
@@ -264,9 +286,9 @@ namespace WumpusGame
 
         }
 
-        internal void GetEnvironmentDescription()
+        public void GetEnvironmentDescription()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }
