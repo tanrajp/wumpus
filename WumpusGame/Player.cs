@@ -23,9 +23,14 @@ namespace WumpusGame
             score = new Score();
         }
 
+        public int GetCurrentScore()
+        {
+            return score.CurrentScore();
+        }
+
         public void Status()
         {
-            Console.WriteLine(string.Format(@"[{0} points earned] {1}", score.CurrentScore(), HasWeapon ? "You are armed and dangerous." : "You are weaponless."));
+            Console.WriteLine(string.Format(@"[{0} points earned] {1}", GetCurrentScore(), HasWeapon ? "You are armed and dangerous." : "You are weaponless."));
         }
 
     }

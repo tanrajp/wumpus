@@ -38,11 +38,47 @@ namespace WumpusGame
             return curPos;
         }
 
-        public void ParseInput(string input)
+        public void ParseInput(string rawInput)
         {
-            string in = input;
+            string input = rawInput.ToUpper();
+            switch (input)
+            {
+                case "?":
+                    DisplayHelp();
+                    break;
+                case "X":
+                    System.Environment.Exit(0);
+                    break;
+                case "R":
+                    RunAway();
+                    break;
+                default:
+                    Console.WriteLine("Input error, press ? for help");
+                    break;
+            }
         }
 
+        private void RunAway()
+        {
+            Tuple<int,int> entrancePos = new Tuple<int,int>(10, cave.GetEntranceCoord());
+            if (GetCurrentPosition().Equals(entrancePos))
+            {
+                player.IsAlive = false;
+                Console.WriteLine("You exit the Wumpus cave and run to town. People buy you ales as you tell the story of your adventure.");
+                Console.WriteLine("***GAME OVER***");
+                Console.WriteLine("You scored " + player.GetCurrentScore() + " points! Well Played!");
+            }
+        }
+
+        private static void DisplayHelp()
+        {
+            Console.WriteLine("N Move 1 space north");
+            Console.WriteLine("E Move 1 space east");
+            Console.WriteLine("S Move 1 space south");
+            Console.WriteLine("W Move 1 space west");
+            Console.WriteLine("X exit game");
+            Console.WriteLine(" ");
+        }
 
     }
 }
