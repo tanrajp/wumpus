@@ -40,6 +40,7 @@ namespace WumpusGame
 
         public void ParseInput(string input)
         {
+            string in = input;
         }
 
 
