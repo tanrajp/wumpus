@@ -9,22 +9,22 @@ namespace WumpusGame
     public class Program
     {
 
-        private Player player;
 
         public Program()
         {
-            Cave cave = new Cave();
-            player = new Player(10, cave.GetEntranceCoord());
+            Game game = new Game();
+            Player player = game.GetPlayer();
+            Cave cave = game.GetCave();
+
             Console.WriteLine("Welcome to the Wumpus Game.");
 
             while (player.IsAlive)
             {
-                cave.DisplayMap(player.GetXpos(), player.GetYPos());
-                cave.GetRoomDescription(player.GetXpos(), player.GetYPos());
+                cave.DisplayMap(game.GetCurrentPosition());
+                cave.GetRoomDescription(game.GetCurrentPosition());
                 cave.GetEnvironmentDescription();
-                Console.WriteLine(player.Status());
-                //cave.DisplayDebugMap();
-                GetInput();
+                player.Status();
+                game.ParseInput(Console.ReadLine());
             }
 
 
@@ -46,18 +46,31 @@ namespace WumpusGame
             string input = Console.ReadLine();
             switch (input)
             {
-                case "?":
-                    DisplayHelp();
-                    break;
-                case "x":
-                    System.Environment.Exit(0);
-                    break;
-                case "n":
-                    player.North();
-                    break;
-                default:
-                    Console.WriteLine("Default");
-                    break;
+                //case "?":
+                //    DisplayHelp();
+                //    break;
+                //case "x":
+                //    System.Environment.Exit(0);
+                //    break;
+                //case "n":
+                //    player.North();
+                //    cave.SetExplored(player.GetXpos(), player.GetYPos());
+                //    break;
+                //case "e":
+                //    player.East();
+                //    cave.SetExplored(player.GetXpos(), player.GetYPos());
+                //    break;
+                //case "s":
+                //    player.South();
+                //    cave.SetExplored(player.GetXpos(), player.GetYPos());
+                //    break;
+                //case "w":
+                //    player.West();
+                //    cave.SetExplored(player.GetXpos(), player.GetYPos());
+                //    break;
+                //default:
+                //    Console.WriteLine("Default");
+                //    break;
             }
         }
 

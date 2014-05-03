@@ -179,21 +179,21 @@ namespace WumpusGame
             }
         }
 
-        public void DisplayMap(int xpos, int ypos)
+        public void DisplayMap(Tuple<int,int> currentPos)
         {
             RoomType[,] view = new RoomType[3,3];
 
-            view[0, 0] = map[xpos-1, ypos - 1];
-            view[0, 1] = map[xpos-1, ypos];
-            view[0, 2] = map[xpos-1, ypos + 1];
+            view[0, 0] = map[currentPos.Item1-1, currentPos.Item2 - 1];
+            view[0, 1] = map[currentPos.Item1 - 1, currentPos.Item2];
+            view[0, 2] = map[currentPos.Item1 - 1, currentPos.Item2 + 1];
 
-            view[1, 0] = map[xpos, ypos-1];
-            view[1, 1] = map[xpos, ypos] | RoomType.Player;
-            view[1, 2] = map[xpos, ypos+1];
+            view[1, 0] = map[currentPos.Item1, currentPos.Item2 - 1];
+            view[1, 1] = map[currentPos.Item1, currentPos.Item2] | RoomType.Player;
+            view[1, 2] = map[currentPos.Item1, currentPos.Item2 + 1];
 
-            view[2, 0] = map[xpos + 1, ypos - 1];
-            view[2, 1] = map[xpos + 1, ypos];
-            view[2, 2] = map[xpos + 1, ypos + 1];
+            view[2, 0] = map[currentPos.Item1 + 1, currentPos.Item2 - 1];
+            view[2, 1] = map[currentPos.Item1 + 1, currentPos.Item2];
+            view[2, 2] = map[currentPos.Item1 + 1, currentPos.Item2 + 1];
 
             for (int i = 0; i < view.GetLength(1); i++)
             {
@@ -214,9 +214,9 @@ namespace WumpusGame
 
         }
 
-        public void GetRoomDescription(int x, int y)
+        public void GetRoomDescription(Tuple<int, int> currPos)
         {
-            RoomType r = map[x, y];
+            RoomType r = map[currPos.Item1, currPos.Item2];
 
             if (r.HasFlag(RoomType.Entrance))
             {
@@ -237,6 +237,43 @@ namespace WumpusGame
             else if (r.HasFlag(RoomType.Wumpus))
             {
                 Console.WriteLine("You died");
+            }
+        }
+
+        private void PrintRoomChar2(int x, int y, RoomType[,] room)
+        {
+            RoomType r = room[x, y];
+            if (r.HasFlag(RoomType.UnExplored))
+            {
+                Console.Write('?');
+            }
+            else if (r.HasFlag(RoomType.Explored))
+            {
+                Console.Write('.');
+            }
+            else if (r.HasFlag(RoomType.Wall))
+            {
+                Console.Write('#');
+            }
+            else if (r.HasFlag(RoomType.Entrance))
+            {
+                Console.Write('^');
+            }
+            else if (r.HasFlag(RoomType.Weapon))
+            {
+                Console.Write('W');
+            }
+            else if (r.HasFlag(RoomType.Gold))
+            {
+                Console.Write('$');
+            }
+            else if (r.HasFlag(RoomType.Player))
+            {
+                Console.WriteLine('@');
+            }
+            else
+            {
+                Console.WriteLine('?');
             }
         }
 
@@ -289,6 +326,12 @@ namespace WumpusGame
         public void GetEnvironmentDescription()
         {
             
+        }
+
+        public void SetExplored(int x, int y)
+        {
+            map[x, y] &= ~RoomType.UnExplored;
+            map[x, y] |= RoomType.Explored;
         }
     }
 }
