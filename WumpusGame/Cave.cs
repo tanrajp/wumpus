@@ -333,5 +333,13 @@ namespace WumpusGame
             map[x, y] &= ~RoomType.UnExplored;
             map[x, y] |= RoomType.Explored;
         }
+
+        public bool CanMoveUp(int x, int y)
+        {
+            bool canMove = false;
+
+
+            return canMove;
+        }
     }
 }

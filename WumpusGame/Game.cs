@@ -13,6 +13,14 @@ namespace WumpusGame
         private int curX;
         private int curY;
 
+        public enum Direction
+        {
+            North,
+            East,
+            South,
+            West
+        };
+
         public Game()
         {
             player = new Player();
@@ -52,9 +60,29 @@ namespace WumpusGame
                 case "R":
                     RunAway();
                     break;
+                case "N":
+                    Move(Direction.North);
+                    break;
+                case "E":
+                    Move(Direction.East);
+                    break;
+                case "S":
+                    Move(Direction.South);
+                    break;
+                case "W":
+                    Move(Direction.West);
+                    break;
                 default:
                     Console.WriteLine("Input error, press ? for help");
                     break;
+            }
+        }
+
+        public void Move(Direction direction)
+        {
+            if (direction.Equals(Direction.North))
+            {
+                Console.WriteLine("north");
             }
         }
 
@@ -77,6 +105,7 @@ namespace WumpusGame
             Console.WriteLine("S Move 1 space south");
             Console.WriteLine("W Move 1 space west");
             Console.WriteLine("X exit game");
+            Console.WriteLine("R run away");
             Console.WriteLine(" ");
         }
 
