@@ -334,10 +334,17 @@ namespace WumpusGame
             map[x, y] |= RoomType.Explored;
         }
 
-        public bool CanMoveUp(int x, int y)
+        public bool CanMove(Tuple<int,int> currPos)
         {
             bool canMove = false;
-
+            if (currPos.Item1 <= SIZE || currPos.Item2 <= SIZE)
+            {
+                canMove = true;
+            }
+            else
+            {
+                canMove = false;
+            }
 
             return canMove;
         }

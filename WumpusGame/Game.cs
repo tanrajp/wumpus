@@ -80,9 +80,30 @@ namespace WumpusGame
 
         public void Move(Direction direction)
         {
-            if (direction.Equals(Direction.North))
+            if (cave.CanMove(GetCurrentPosition()))
             {
-                Console.WriteLine("north");
+                switch (direction)
+                {
+                    case Direction.North:
+                        curX--;
+                        break;
+                    case Direction.South:
+                        curX++;
+                        break;
+                    case Direction.East:
+                        curY++;
+                        break;
+                    case Direction.West:
+                        curY--;
+                        break;
+                    default:
+                        Console.WriteLine("?????");
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("You can't go any further in this direction");
             }
         }
 
