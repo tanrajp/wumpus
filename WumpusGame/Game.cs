@@ -86,15 +86,19 @@ namespace WumpusGame
                 {
                     case Direction.North:
                         curX--;
+                        cave.ExploreRoom(GetCurrentPosition());
                         break;
                     case Direction.South:
                         curX++;
+                        cave.ExploreRoom(GetCurrentPosition());
                         break;
                     case Direction.East:
                         curY++;
+                        cave.ExploreRoom(GetCurrentPosition());
                         break;
                     case Direction.West:
                         curY--;
+                        cave.ExploreRoom(GetCurrentPosition());
                         break;
                     default:
                         Console.WriteLine("?????");

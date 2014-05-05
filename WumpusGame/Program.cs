@@ -15,6 +15,7 @@ namespace WumpusGame
             Game game = new Game();
             Player player = game.GetPlayer();
             Cave cave = game.GetCave();
+            cave.DisplayDebugMap();
 
             Console.WriteLine("Welcome to the Wumpus Game.");
 
@@ -23,7 +24,7 @@ namespace WumpusGame
                 cave.DisplayMap(game.GetCurrentPosition());
                 Console.WriteLine(" ");
                 cave.GetRoomDescription(game.GetCurrentPosition());
-                cave.GetEnvironmentDescription();
+                cave.GetEnvironmentDescription(game.GetCurrentPosition());
                 player.Status();
                 Console.WriteLine("Enter Move (? for help) >");
                 game.ParseInput(Console.ReadLine());

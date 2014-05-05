@@ -47,8 +47,8 @@ namespace WumpusGame
 
         private void SetUpCave()
         {
-            //SetAllUnexplored();
             SetUpWalls();
+            //SetAllUnexplored();
             SetUpRoom(RoomType.Wumpus, WUMPUS);
             SetUpRoom(RoomType.Trap, TRAP);
             SetUpRoom(RoomType.Gold, GOLD);
@@ -323,7 +323,7 @@ namespace WumpusGame
 
         }
 
-        public void GetEnvironmentDescription()
+        public void GetEnvironmentDescription(Tuple<int,int> curPos)
         {
             
         }
@@ -347,6 +347,14 @@ namespace WumpusGame
             }
 
             return canMove;
+        }
+
+        public void ExploreRoom(Tuple<int, int> curPos)
+        {
+            map[curPos.Item1, curPos.Item2] &= ~RoomType.UnExplored;
+            map[curPos.Item1, curPos.Item2] |= RoomType.Explored;
+
+
         }
     }
 }
