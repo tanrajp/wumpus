@@ -15,9 +15,13 @@ namespace WumpusGame
             Game game = new Game();
             Player player = game.GetPlayer();
             Cave cave = game.GetCave();
-            cave.DisplayDebugMap();
+            //cave.DisplayDebugMap();
 
             Console.WriteLine("Welcome to the Wumpus Game.");
+            //cave.DisplayMap(game.GetCurrentPosition());
+            //cave.GetRoomDescription(game.GetCurrentPosition());
+            //cave.GetEnvironmentDescription(game.GetCurrentPosition());
+            //player.Status();
 
             while (player.IsAlive)
             {
@@ -25,9 +29,8 @@ namespace WumpusGame
                 Console.WriteLine(" ");
                 cave.GetRoomDescription(game.GetCurrentPosition());
                 cave.GetEnvironmentDescription(game.GetCurrentPosition());
-                player.Status();
-                Console.WriteLine("Enter Move (? for help) >");
-                game.ParseInput(Console.ReadLine());
+                player.Status(); Console.WriteLine("Enter Move (? for help) >");
+                game.ParseInput2(Console.ReadLine());
             }
 
             Console.ReadLine();
@@ -35,39 +38,39 @@ namespace WumpusGame
 
 
 
-        private void GetInput()
-        {
-            //Console.WriteLine("Enter Move (? for help) >");
-            //string input = Console.ReadLine();
-            //switch (input)
-            //{
-            //    case "?":
-            //        DisplayHelp();
-            //        break;
-            //    case "x":
-            //        System.Environment.Exit(0);
-            //        break;
-            //    case "n":
-            //        player.North();
-            //        cave.SetExplored(player.GetXpos(), player.GetYPos());
-            //        break;
-            //    case "e":
-            //        player.East();
-            //        cave.SetExplored(player.GetXpos(), player.GetYPos());
-            //        break;
-            //    case "s":
-            //        player.South();
-            //        cave.SetExplored(player.GetXpos(), player.GetYPos());
-            //        break;
-            //    case "w":
-            //        player.West();
-            //        cave.SetExplored(player.GetXpos(), player.GetYPos());
-            //        break;
-            //    default:
-            //        Console.WriteLine("Default");
-            //        break;
-            //}
-        }
+        //private void GetInput()
+        //{
+        //    //Console.WriteLine("Enter Move (? for help) >");
+        //    //string input = Console.ReadLine();
+        //    //switch (input)
+        //    //{
+        //    //    case "?":
+        //    //        DisplayHelp();
+        //    //        break;
+        //    //    case "x":
+        //    //        System.Environment.Exit(0);
+        //    //        break;
+        //    //    case "n":
+        //    //        player.North();
+        //    //        cave.SetExplored(player.GetXpos(), player.GetYPos());
+        //    //        break;
+        //    //    case "e":
+        //    //        player.East();
+        //    //        cave.SetExplored(player.GetXpos(), player.GetYPos());
+        //    //        break;
+        //    //    case "s":
+        //    //        player.South();
+        //    //        cave.SetExplored(player.GetXpos(), player.GetYPos());
+        //    //        break;
+        //    //    case "w":
+        //    //        player.West();
+        //    //        cave.SetExplored(player.GetXpos(), player.GetYPos());
+        //    //        break;
+        //    //    default:
+        //    //        Console.WriteLine("Default");
+        //    //        break;
+        //    //}
+        //}
 
         static void Main(string[] args)
         {

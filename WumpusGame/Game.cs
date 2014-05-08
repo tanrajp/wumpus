@@ -46,6 +46,85 @@ namespace WumpusGame
             return curPos;
         }
 
+        public void ParseInput2(string raw)
+        {
+            cave.ExploreRoom(GetCurrentPosition());
+
+            string input = raw.ToUpper();
+            if (input.Equals("N") || input.Equals("S") || input.Equals("E") || input.Equals("W"))
+            {
+                Move2(input);
+            }
+            if (input.Equals("R") || input.Equals("L") || input.Equals("X") || input.Equals("?"))
+            {
+                ParseAction(input);
+            }
+        }
+
+        public void ParseAction(string action)
+        {
+            switch (action)
+            {
+                case "R":
+                    RunAway();
+                    break;
+                case "L":
+                    ProcessRoom(GetCurrentPosition());
+                    break;
+                case "X":
+                    System.Environment.Exit(0);
+                    break;
+                case "?":
+                    DisplayHelp();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void ProcessRoom(Tuple<int, int> curPos)
+        {
+            if (cave.IsGoldRoom(curPos))
+            {
+                cave.SetExplored(curPos);
+                player.ScoreGold();
+            }
+            if (cave.IsWumpusRoom(curPos))
+            {
+                if (player.HasWeapon)
+                {
+                    Console.WriteLine("You slayed the filthy fiend");
+                }
+                else
+                {
+                    player.IsAlive = false;
+                    Console.WriteLine("The fowl beast stands before you and eats you!");
+                }
+            }
+        }
+
+        public void Move2(string input)
+        {
+            switch (input)
+            {
+                case "N":
+                    curX--;
+                    break;
+                case "E":
+                    curY++;
+                    break;
+                case "S":
+                    curX++;
+                    break;
+                case "W":
+                    curY--;
+                    break;
+                default:
+                    Console.WriteLine("?????");
+                    break;
+            }
+        }
+
         public void ParseInput(string rawInput)
         {
             string input = rawInput.ToUpper();
@@ -76,6 +155,11 @@ namespace WumpusGame
                     Console.WriteLine("Input error, press ? for help");
                     break;
             }
+            cave.ExploreRoom(GetCurrentPosition());
+            if (cave.IsGoldRoom(GetCurrentPosition()))
+            {
+                player.ScoreGold();
+            }
         }
 
         public void Move(Direction direction)
@@ -86,7 +170,6 @@ namespace WumpusGame
                 {
                     case Direction.North:
                         curX--;
-                        cave.ExploreRoom(GetCurrentPosition());
                         break;
                     case Direction.South:
                         curX++;

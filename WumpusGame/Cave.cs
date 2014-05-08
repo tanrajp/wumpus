@@ -284,10 +284,6 @@ namespace WumpusGame
             {
                 Console.Write('?');
             }
-            else if (r.HasFlag(RoomType.Explored))
-            {
-                Console.Write('.');
-            }
             else if (r.HasFlag(RoomType.Wall))
             {
                 Console.Write('#');
@@ -320,6 +316,10 @@ namespace WumpusGame
             {
                 Console.Write('?');
             }
+            else if (r.HasFlag(RoomType.Explored))
+            {
+                Console.Write('.');
+            }
 
         }
 
@@ -328,10 +328,11 @@ namespace WumpusGame
             
         }
 
-        public void SetExplored(int x, int y)
+        public void SetExplored(Tuple<int,int> curPos)
         {
-            map[x, y] &= ~RoomType.UnExplored;
-            map[x, y] |= RoomType.Explored;
+            //map[curPos.Item1, curPos.Item2] &= ~RoomType.UnExplored;
+            //map[curPos.Item1, curPos.Item2] |= RoomType.Explored;
+            map[curPos.Item1, curPos.Item2] = RoomType.Explored;
         }
 
         public bool CanMove(Tuple<int,int> currPos)
@@ -353,8 +354,27 @@ namespace WumpusGame
         {
             map[curPos.Item1, curPos.Item2] &= ~RoomType.UnExplored;
             map[curPos.Item1, curPos.Item2] |= RoomType.Explored;
+        }
 
+        public bool IsGoldRoom(Tuple<int, int> curPos)
+        {
+            bool gold = false;
 
+            if (map[curPos.Item1, curPos.Item2].HasFlag(RoomType.Gold))
+            {
+                gold = true;
+            }
+            return gold;
+        }
+
+        public bool IsWumpusRoom(Tuple<int, int> curPos)
+        {
+            bool wumpus = false;
+            if (map[curPos.Item1, curPos.Item2].HasFlag(RoomType.Wumpus))
+            {
+                wumpus = true;
+            }
+            return wumpus;
         }
     }
 }

@@ -33,5 +33,10 @@ namespace WumpusGame
             Console.WriteLine(string.Format(@"[{0} points earned] {1}", GetCurrentScore(), HasWeapon ? "You are armed and dangerous." : "You are weaponless."));
         }
 
+        public void ScoreGold()
+        {
+            score.IncreaseScore(5);
+        }
+
     }
 }

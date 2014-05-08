@@ -20,5 +20,10 @@ namespace WumpusGame
         {
             return currentScore;
         }
+
+        public void IncreaseScore(int val)
+        {
+            currentScore += val;
+        }
     }
 }
