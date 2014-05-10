@@ -20,7 +20,8 @@ namespace WumpusGame
             Explored = 1 << 7,
             Wall = 1 << 8,
             UnExplored = 1 << 9,
-            All = UnExplored | Explored | Wall | Entrance | Weapon | Gold | Wumpus | PitTrap
+            Player = 1 << 10,
+            All = Wumpus | PitTrap | Gold | Weapon
         }
 
         private RoomType[,] map;
@@ -28,13 +29,14 @@ namespace WumpusGame
         private const double PIT = 0.05;
         private const double GOLD = 0.15;
         private const double WEAPON = 0.15;
-        private Tuple<int,int> Entrance;
+        private Game game;
 
-        public Cave()
+        public Cave(Game game)
         {
+            this.game = game;
             map = new RoomType[12, 12];
             SetUpWalls();
-            //SetAllUnxplored();
+            SetAllUnxplored();
             SetEntrance();
             SetUpRoom(RoomType.Wumpus, WUMPUS);
             SetUpRoom(RoomType.PitTrap, PIT);
@@ -73,6 +75,8 @@ namespace WumpusGame
             int y = rnd.Next(1,11);
 
             map[x, y] = RoomType.Entrance;
+            Tuple<int, int> pos = new Tuple<int,int>(x,y);
+            game.GetPlayer().SetCurPos(pos);
         }
 
         private void SetUpRoom(RoomType rt, double roomnums)
@@ -88,7 +92,7 @@ namespace WumpusGame
 
                 if (!((map[xcoord, ycoord] & RoomType.All) != 0))
                 {
-                    map[xcoord, ycoord] = rt;
+                    map[xcoord, ycoord] = map[xcoord, ycoord] | rt;
                     index++;
                 }
             }
@@ -111,6 +115,11 @@ namespace WumpusGame
             {
                 Console.WriteLine("You see the entrance here. You wish to run away?");
             }
+            if (map[curPos.Item1, curPos.Item2].HasFlag(RoomType.PitTrap))
+            {
+                game.GetPlayer().IsAlive = false;
+                Console.WriteLine("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaahhhhhhhhhh noooooooooooooooooo Splat");
+            }
         }
 
         private void ExploreRoom(Tuple<int,int> curPos)
@@ -123,14 +132,43 @@ namespace WumpusGame
 
         }
 
-        public Tuple<int, int> GetEntrance()
+        public void DisplayMiniMap(Tuple<int, int> currentPos)
         {
-            return Entrance;
+            RoomType[,] view = new RoomType[3, 3];
+
+            view[0, 0] = map[currentPos.Item1 - 1, currentPos.Item2 - 1];
+            view[0, 1] = map[currentPos.Item1 - 1, currentPos.Item2];
+            view[0, 2] = map[currentPos.Item1 - 1, currentPos.Item2 + 1];
+
+            view[1, 0] = map[currentPos.Item1, currentPos.Item2 - 1];
+            view[1, 1] = map[currentPos.Item1, currentPos.Item2] | RoomType.Player;
+            view[1, 2] = map[currentPos.Item1, currentPos.Item2 + 1];
+
+            view[2, 0] = map[currentPos.Item1 + 1, currentPos.Item2 - 1];
+            view[2, 1] = map[currentPos.Item1 + 1, currentPos.Item2];
+            view[2, 2] = map[currentPos.Item1 + 1, currentPos.Item2 + 1];
+
+            for (int i = 0; i < view.GetLength(1); i++)
+            {
+                for (int j = 0; j < view.GetLength(1); j++)
+                {
+                    if (view[i, j].HasFlag(RoomType.Player))
+                    {
+                        Console.Write("@");
+                    }
+                    else
+                    {
+                        PrintRoom(new Tuple<int,int>(i, j), view);
+                    }
+                    Console.Write(' ');
+                }
+                Console.WriteLine();
+            }
         }
 
-        private void PrintRoom(Tuple<int, int> curPos)
+        private void PrintRoom(Tuple<int, int> curPos, RoomType[,] view)
         {
-            RoomType room = map[curPos.Item1, curPos.Item2];
+            RoomType room = view[curPos.Item1, curPos.Item2];
 
             if (room.HasFlag(RoomType.Wall))
             {
@@ -164,7 +202,7 @@ namespace WumpusGame
             {
                 for (int y = 0; y < map.GetLength(0); y++)
                 {
-                    PrintRoom(new Tuple<int,int>(x,y));
+                    PrintRoom(new Tuple<int,int>(x,y), map);
                 }
                 Console.WriteLine(" ");
             }
