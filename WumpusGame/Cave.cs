@@ -28,12 +28,14 @@ namespace WumpusGame
         private const double PIT = 0.05;
         private const double GOLD = 0.15;
         private const double WEAPON = 0.15;
+        private Tuple<int,int> Entrance;
 
         public Cave()
         {
             map = new RoomType[12, 12];
             SetUpWalls();
             //SetAllUnxplored();
+            SetEntrance();
             SetUpRoom(RoomType.Wumpus, WUMPUS);
             SetUpRoom(RoomType.PitTrap, PIT);
             SetUpRoom(RoomType.Gold, GOLD);
@@ -63,6 +65,16 @@ namespace WumpusGame
             }
         }
 
+        private void SetEntrance()
+        {
+            Random rnd = new Random();
+
+            int x = 10;
+            int y = rnd.Next(1,11);
+
+            map[x, y] = RoomType.Entrance;
+        }
+
         private void SetUpRoom(RoomType rt, double roomnums)
         {
             int numOfRooms = Convert.ToInt32((10 * 10) * roomnums);
@@ -80,6 +92,11 @@ namespace WumpusGame
                     index++;
                 }
             }
+        }
+
+        public Tuple<int, int> GetEntrance()
+        {
+            return Entrance;
         }
 
         private void PrintRoom(Tuple<int, int> curPos)
@@ -101,6 +118,10 @@ namespace WumpusGame
             else if (room.HasFlag(RoomType.Weapon))
             {
                 Console.Write('W');
+            }
+            else if (room.HasFlag(RoomType.Entrance))
+            {
+                Console.Write('^');
             }
             else
             {
