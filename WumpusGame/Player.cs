@@ -8,35 +8,13 @@ namespace WumpusGame
 {
     public class Player
     {
-        private Score score;
-
-        public bool HasWeapon { get; set; }
-        public bool IsAlive { get; set; }
-        public int Gold { get; set; }
-
+        private bool IsAlive;
+        private bool HasWeapon;
 
         public Player()
         {
-            HasWeapon = false;
             IsAlive = true;
-            Gold = 0;
-            score = new Score();
+            HasWeapon = false;
         }
-
-        public int GetCurrentScore()
-        {
-            return score.CurrentScore();
-        }
-
-        public void Status()
-        {
-            Console.WriteLine(string.Format(@"[{0} points earned] {1}", GetCurrentScore(), HasWeapon ? "You are armed and dangerous." : "You are weaponless."));
-        }
-
-        public void ScoreGold()
-        {
-            score.IncreaseScore(5);
-        }
-
     }
 }
