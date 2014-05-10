@@ -15,13 +15,52 @@ namespace WumpusGame
         {
             player = new Player();
             cave = new Cave(this);
-
             PrintIntro();
+
             cave.DisplayMiniMap(player.GetCurPos());
             cave.ParseCurrentRoom(player.GetCurPos());
             player.GetStatus();
 
+            while (player.IsAlive==true)
+            {
+                Console.WriteLine("Enter Move (? for help) > ");
+                ParseInput(Console.ReadLine());
+                cave.DisplayMiniMap(player.GetCurPos());
+                cave.ParseCurrentRoom(player.GetCurPos());
+                player.GetStatus();
+            }
+
+
             Console.Read();
+        }
+
+        private void ParseInput(string input)
+        {
+            int x = player.GetCurPos().Item1;
+            int y = player.GetCurPos().Item2;
+
+            switch (input.ToUpper())
+            {
+                case "N":
+                    x--;
+                    break;
+                case "S":
+                    x++;
+                    break;
+                case "E":
+                    y++;
+                    break;
+                case "W":
+                    y--;
+                    break;
+                case "?":
+                    PrintHelp();
+                    break;
+                default:
+                    Console.WriteLine("Input Error!");
+                    break;
+            }
+            player.SetCurPos(new Tuple<int,int>(x,y));
         }
 
         public Player GetPlayer()
@@ -41,6 +80,23 @@ namespace WumpusGame
             Console.WriteLine("by Tanraj Panesar");
             Console.WriteLine(" ");
             Console.WriteLine(" ");
+        }
+
+        private void PrintHelp()
+        {
+            Console.WriteLine("N Move 1 space north");
+            Console.WriteLine("E Move 1 space east");
+            Console.WriteLine("S Move 1 space south");
+            Console.WriteLine("W Move 1 space west");
+            Console.WriteLine("X exit game");
+            Console.WriteLine("R run away");
+            Console.WriteLine(" ");
+        }
+
+        public void PrintGameOver()
+        {
+            Console.WriteLine("***Game Over ***");
+            Console.WriteLine("You scored " + player.GetCurrentScore() + " points");
         }
 
         public static void Main(string[] args)

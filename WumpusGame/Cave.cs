@@ -119,6 +119,7 @@ namespace WumpusGame
             {
                 game.GetPlayer().IsAlive = false;
                 Console.WriteLine("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaahhhhhhhhhh noooooooooooooooooo Splat");
+                game.PrintGameOver();
             }
         }
 
@@ -135,18 +136,7 @@ namespace WumpusGame
         public void DisplayMiniMap(Tuple<int, int> currentPos)
         {
             RoomType[,] view = new RoomType[3, 3];
-
-            view[0, 0] = map[currentPos.Item1 - 1, currentPos.Item2 - 1];
-            view[0, 1] = map[currentPos.Item1 - 1, currentPos.Item2];
-            view[0, 2] = map[currentPos.Item1 - 1, currentPos.Item2 + 1];
-
-            view[1, 0] = map[currentPos.Item1, currentPos.Item2 - 1];
-            view[1, 1] = map[currentPos.Item1, currentPos.Item2] | RoomType.Player;
-            view[1, 2] = map[currentPos.Item1, currentPos.Item2 + 1];
-
-            view[2, 0] = map[currentPos.Item1 + 1, currentPos.Item2 - 1];
-            view[2, 1] = map[currentPos.Item1 + 1, currentPos.Item2];
-            view[2, 2] = map[currentPos.Item1 + 1, currentPos.Item2 + 1];
+            view = CreateMiniView(currentPos);
 
             for (int i = 0; i < view.GetLength(1); i++)
             {
@@ -164,6 +154,31 @@ namespace WumpusGame
                 }
                 Console.WriteLine();
             }
+        }
+
+        public void DescribeSurroundings(Tuple<int,int> currentPos)
+        {
+            RoomType[,] view = new RoomType[3, 3];
+            view = CreateMiniView(currentPos);
+        }
+
+        private RoomType[,] CreateMiniView(Tuple<int,int> currentPos)
+        {
+            RoomType[,] view = new RoomType[3, 3];
+
+            view[0, 0] = map[currentPos.Item1 - 1, currentPos.Item2 - 1];
+            view[0, 1] = map[currentPos.Item1 - 1, currentPos.Item2];
+            view[0, 2] = map[currentPos.Item1 - 1, currentPos.Item2 + 1];
+
+            view[1, 0] = map[currentPos.Item1, currentPos.Item2 - 1];
+            view[1, 1] = map[currentPos.Item1, currentPos.Item2] | RoomType.Player;
+            view[1, 2] = map[currentPos.Item1, currentPos.Item2 + 1];
+
+            view[2, 0] = map[currentPos.Item1 + 1, currentPos.Item2 - 1];
+            view[2, 1] = map[currentPos.Item1 + 1, currentPos.Item2];
+            view[2, 2] = map[currentPos.Item1 + 1, currentPos.Item2 + 1];
+
+            return view;
         }
 
         private void PrintRoom(Tuple<int, int> curPos, RoomType[,] view)
