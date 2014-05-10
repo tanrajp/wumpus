@@ -11,14 +11,16 @@ namespace WumpusGame
         [Flags]
         enum RoomType
         {
-            Entrance = 2,
-            Wumpus = 4,
-            PitTrap = 8,
-            Gold = 16,
-            Weapon = 32,
-            Empty = 64,
-            Explored = 128,
-            Wall = 256,
+            Entrance = 1,
+            Wumpus = 1 << 2,
+            PitTrap = 1 << 3,
+            Gold = 1 << 4,
+            Weapon = 1 << 5,
+            Empty = 1 << 6,
+            Explored = 1 << 7,
+            Wall = 1 << 8,
+            UnExplored = 1 << 9,
+            All = UnExplored | Explored | Wall | Entrance | Weapon | Gold | Wumpus | PitTrap
         }
 
         private RoomType[,] map;
@@ -31,6 +33,11 @@ namespace WumpusGame
         {
             map = new RoomType[12, 12];
             SetUpWalls();
+            //SetAllUnxplored();
+            SetUpRoom(RoomType.Wumpus, WUMPUS);
+            SetUpRoom(RoomType.PitTrap, PIT);
+            SetUpRoom(RoomType.Gold, GOLD);
+            SetUpRoom(RoomType.Weapon, WEAPON);
         }
 
         private void SetUpWalls()
@@ -45,6 +52,36 @@ namespace WumpusGame
             }
         }
 
+        private void SetAllUnxplored()
+        {
+            for (int x =1 ; x <11; x++)
+            {
+                for (int y = 1; y < 11; y++)
+                {
+                    map[x, y] = RoomType.UnExplored;
+                }
+            }
+        }
+
+        private void SetUpRoom(RoomType rt, double roomnums)
+        {
+            int numOfRooms = Convert.ToInt32((10 * 10) * roomnums);
+            int xcoord, ycoord, index = 0;
+            Random rng = new Random();
+
+            while (index < numOfRooms)
+            {
+                xcoord = rng.Next(1, 11);
+                ycoord = rng.Next(1, 11);
+
+                if (!((map[xcoord, ycoord] & RoomType.All) != 0))
+                {
+                    map[xcoord, ycoord] = rt;
+                    index++;
+                }
+            }
+        }
+
         private void PrintRoom(Tuple<int, int> curPos)
         {
             RoomType room = map[curPos.Item1, curPos.Item2];
@@ -52,6 +89,18 @@ namespace WumpusGame
             if (room.HasFlag(RoomType.Wall))
             {
                 Console.Write('#');
+            }
+            else if (room.HasFlag(RoomType.UnExplored))
+            {
+                Console.Write('?');
+            }
+            else if (room.HasFlag(RoomType.Gold))
+            {
+                Console.Write('$');
+            }
+            else if (room.HasFlag(RoomType.Weapon))
+            {
+                Console.Write('W');
             }
             else
             {
@@ -70,7 +119,6 @@ namespace WumpusGame
                 Console.WriteLine(" ");
             }
         }
-
 
     }
 }
