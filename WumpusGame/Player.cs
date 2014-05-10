@@ -8,13 +8,22 @@ namespace WumpusGame
 {
     public class Player
     {
-        private bool IsAlive;
-        private bool HasWeapon;
-
         public Player()
         {
             IsAlive = true;
             HasWeapon = false;
+        }
+
+        public bool IsAlive
+        {
+            get;
+            set;
+        }
+
+        public bool HasWeapon
+        {
+            get;
+            set;
         }
     }
 }

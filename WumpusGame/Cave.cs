@@ -94,6 +94,35 @@ namespace WumpusGame
             }
         }
 
+        public void ParseCurrentRoom(Tuple<int, int> curPos)
+        {
+            RoomType room = map[curPos.Item1, curPos.Item2];
+            if (map[curPos.Item1, curPos.Item2].HasFlag(RoomType.Gold))
+            {
+                ExploreRoom(curPos);
+                Console.WriteLine("Before you lies the the gold of adventure seekers who feed a Wumpus Recently");
+            }
+            if (map[curPos.Item1, curPos.Item2].HasFlag(RoomType.Weapon))
+            {
+                ExploreRoom(curPos);
+                Console.WriteLine("Cast before you in a rock a sword awaits to be looted and name yourself King");
+            }
+            if (map[curPos.Item1, curPos.Item2].HasFlag(RoomType.Entrance))
+            {
+                Console.WriteLine("You see the entrance here. You wish to run away?");
+            }
+        }
+
+        private void ExploreRoom(Tuple<int,int> curPos)
+        {
+            map[curPos.Item1,curPos.Item2] = RoomType.Explored;
+        }
+
+        private void ConvertWeaponRooms()
+        {
+
+        }
+
         public Tuple<int, int> GetEntrance()
         {
             return Entrance;
