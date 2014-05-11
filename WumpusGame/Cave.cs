@@ -202,11 +202,54 @@ namespace WumpusGame
 
         public void DescribeSurroundings(Tuple<int,int> currentPos)
         {
-            RoomType[,] view = new RoomType[3, 3];
-            view = CreateMiniView(currentPos);
+            //RoomType[,] view = new RoomType[3, 3];
+            //view = CreateMiniView(currentPos);
+
+            //north = x--
+            //south = x++
+            //east = y++
+            //west - y--
+
+            int x = currentPos.Item1;
+            int y = currentPos.Item2;
+
+            if (map[x - 1, y].HasFlag(RoomType.Wumpus))
+            {
+                Console.WriteLine("There is a fowl stench in the air");
+            }
+            else if (map[x + 1, y].HasFlag(RoomType.Wumpus))
+            {
+                Console.WriteLine("There is a fowl stench in the air");
+            }
+            else if (map[x, y - 1].HasFlag(RoomType.Wumpus))
+            {
+                Console.WriteLine("There is a fowl stench in the air");
+            }
+            else if (map[x, y + 1].HasFlag(RoomType.Wumpus))
+            {
+                Console.WriteLine("There is a fowl stench in the air");
+            }
+            else if (map[x - 1, y].HasFlag(RoomType.PitTrap))
+            {
+                Console.WriteLine("You hear howling winds");
+            }
+            else if (map[x + 1, y].HasFlag(RoomType.PitTrap))
+            {
+                Console.WriteLine("You hear howling winds");
+            }
+            else if (map[x, y - 1].HasFlag(RoomType.PitTrap))
+            {
+                Console.WriteLine("You hear howling winds");
+            }
+            else if (map[x, y + 1].HasFlag(RoomType.PitTrap))
+            {
+                Console.WriteLine("You hear howling winds");
+            }
+
+
         }
 
-        private RoomType[,] CreateMiniView(Tuple<int,int> currentPos)
+        private RoomType[,] CreateMiniView(Tuple<int, int> currentPos)
         {
             RoomType[,] view = new RoomType[3, 3];
 

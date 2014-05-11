@@ -21,6 +21,7 @@ namespace WumpusGame
             while (CanContinue)
             {
                 cave.DisplayMiniMap(player.GetCurPos());
+                cave.DescribeSurroundings(player.GetCurPos());
                 CanContinue = cave.ParseCurrentRoom(player.GetCurPos());
                 if (CanContinue == false)
                 {
