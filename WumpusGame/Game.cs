@@ -17,7 +17,7 @@ namespace WumpusGame
             cave = new Cave(this);
             PrintIntro();
 
-            bool CanContinue = true;
+            CanContinue = true;
             while (CanContinue)
             {
                 cave.DisplayMiniMap(player.GetCurPos());
@@ -60,7 +60,7 @@ namespace WumpusGame
                     cave.Loot();
                     break;
                 case "R":
-                    
+                    cave.RunAway(player.GetCurPos());
                     break;
                 case "X":
                     System.Environment.Exit(0);
@@ -93,12 +93,13 @@ namespace WumpusGame
 
         private void PrintHelp()
         {
-            Console.WriteLine("N Move 1 space north");
-            Console.WriteLine("E Move 1 space east");
-            Console.WriteLine("S Move 1 space south");
-            Console.WriteLine("W Move 1 space west");
-            Console.WriteLine("X exit game");
-            Console.WriteLine("R run away");
+            Console.WriteLine("N: Move 1 space north");
+            Console.WriteLine("E: Move 1 space east");
+            Console.WriteLine("S: Move 1 space south");
+            Console.WriteLine("W: Move 1 space west");
+            Console.WriteLine("X: exit game");
+            Console.WriteLine("R: run away");
+            Console.WriteLine("L: Loot room");
             Console.WriteLine(" ");
         }
 
@@ -106,6 +107,12 @@ namespace WumpusGame
         {
             Console.WriteLine("***Game Over ***");
             Console.WriteLine("You scored " + player.GetCurrentScore() + " points");
+        }
+
+        public bool CanContinue
+        {
+            get;
+            set;
         }
 
         public static void Main(string[] args)

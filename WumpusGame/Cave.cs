@@ -98,7 +98,7 @@ namespace WumpusGame
             }
         }
 
-        public bool ParseCurrentRoom(Tuple<int, int> curPos)
+        public bool ParseCurrentRoom(Tuple<int, int> curPos) // fix this.
         {
             RoomType room = map[curPos.Item1, curPos.Item2];
             bool Continue = true;
@@ -256,18 +256,30 @@ namespace WumpusGame
             }
         }
 
-
-        public bool RunAway(Tuple<int,int> curPos)
+        public void Loot(Tuple<int,int> curPos)
         {
-            if (map[curPos.Item1, curPos.Item2].HasFlag(RoomType.Entrance))
+            if (map[curPos.Item1, curPos.Item2].HasFlag(RoomType.Gold))
             {
-                
+                map[curPos.Item1, curPos.Item2] &= ~RoomType.Gold;
+                game.GetPlayer().SetCurrentScore(5);
+                Console.WriteLine("You loot the room");
+            }
+            else if (map[curPos.Item1, curPos.Item2].HasFlag(RoomType.Weapon))
+            {
+                map[curPos.Item1, curPos.Item2] &= ~RoomType.Weapon;
+                game.GetPlayer().SetCurrentScore(5);
+                Console.WriteLine("You pick the mightly weapon");
+                ConvertWeaponRooms();
             }
         }
 
-        public void Loot()
+        public void RunAway(Tuple<int,int> curPos)
         {
-            throw new NotImplementedException();
+            if (map[curPos.Item1, curPos.Item2].HasFlag(RoomType.Entrance))
+            {
+                game.CanContinue = false;
+                Console.WriteLine("You ran away");
+            }
         }
     }
 }
