@@ -30,6 +30,7 @@ namespace WumpusGame
                 Console.WriteLine("Enter Move (? for help) > ");
                 ParseInput(Console.ReadLine());
             }
+            PrintGameOver();
             Console.Read();
         }
 

@@ -62,7 +62,7 @@ namespace WumpusGame
             {
                 for (int y = 1; y < 11; y++)
                 {
-                    map[x, y] = RoomType.UnExplored;
+                    map[x, y] = RoomType.UnExplored | RoomType.Empty;
                 }
             }
         }
@@ -108,21 +108,40 @@ namespace WumpusGame
                 ExploreRoom(curPos);
                 Console.WriteLine("Before you lies the the gold of adventure seekers who feed a Wumpus Recently");
             }
-            if (map[curPos.Item1, curPos.Item2].HasFlag(RoomType.Weapon))
+            else if (map[curPos.Item1, curPos.Item2].HasFlag(RoomType.Weapon))
             {
                 ExploreRoom(curPos);
                 Console.WriteLine("Cast before you in a rock a sword awaits to be looted and name yourself King");
             }
-            if (map[curPos.Item1, curPos.Item2].HasFlag(RoomType.Entrance))
+            else if (map[curPos.Item1, curPos.Item2].HasFlag(RoomType.Entrance))
             {
                 Console.WriteLine("You see the entrance here. You wish to run away?");
             }
-            if (map[curPos.Item1, curPos.Item2].HasFlag(RoomType.PitTrap))
+            else if (map[curPos.Item1, curPos.Item2].HasFlag(RoomType.PitTrap))
             {
                 Continue = false;
+                ExploreRoom(curPos);
                 game.GetPlayer().IsAlive = false;
                 Console.WriteLine("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaahhhhhhhhhh noooooooooooooooooo Splat");
-                game.PrintGameOver();
+            }
+            else if (map[curPos.Item1, curPos.Item2].HasFlag(RoomType.Wumpus))
+            {
+                ExploreRoom(curPos);
+                if (game.GetPlayer().HasWeapon == true)
+                {
+                    Continue = true;
+                    Console.WriteLine("You slay the ugly beast with your sword");
+                }
+                if (game.GetPlayer().HasWeapon == false)
+                {
+                    Continue = false;
+                    Console.WriteLine("A Wumpus attacks you and makes you his lunch.");
+                }
+            }
+            else if(map[curPos.Item1,curPos.Item2].HasFlag(RoomType.Empty))
+            {
+                ExploreRoom(curPos);
+                Console.WriteLine("You see nothing, maybe in the next room...");
             }
 
             return Continue;
@@ -130,7 +149,8 @@ namespace WumpusGame
 
         private void ExploreRoom(Tuple<int,int> curPos)
         {
-            map[curPos.Item1,curPos.Item2] = RoomType.Explored;
+            map[curPos.Item1, curPos.Item2] &= ~RoomType.UnExplored;
+            map[curPos.Item1,curPos.Item2] = map[curPos.Item1, curPos.Item2] | RoomType.Explored;
         }
 
         private void ConvertWeaponRooms()
