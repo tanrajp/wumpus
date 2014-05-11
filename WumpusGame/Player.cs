@@ -50,5 +50,10 @@ namespace WumpusGame
         {
             return score;
         }
+
+        public void SetCurrentScore(int s)
+        {
+            score += s;
+        }
     }
 }

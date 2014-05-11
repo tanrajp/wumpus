@@ -140,8 +140,16 @@ namespace WumpusGame
             }
             else if(map[curPos.Item1,curPos.Item2].HasFlag(RoomType.Empty))
             {
-                ExploreRoom(curPos);
-                Console.WriteLine("You see nothing, maybe in the next room...");
+                if (map[curPos.Item1, curPos.Item2].HasFlag(RoomType.UnExplored))
+                {
+                    ExploreRoom(curPos);
+                    game.GetPlayer().SetCurrentScore(1);
+                    Console.WriteLine("You see nothing, maybe in the next room...");
+                }
+                else
+                {
+                    Console.WriteLine("This room looks familiar. You have been here before");
+                }
             }
 
             return Continue;
@@ -248,5 +256,18 @@ namespace WumpusGame
             }
         }
 
+
+        public bool RunAway(Tuple<int,int> curPos)
+        {
+            if (map[curPos.Item1, curPos.Item2].HasFlag(RoomType.Entrance))
+            {
+                
+            }
+        }
+
+        public void Loot()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

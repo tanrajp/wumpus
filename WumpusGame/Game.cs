@@ -56,6 +56,15 @@ namespace WumpusGame
                 case "?":
                     PrintHelp();
                     break;
+                case "L":
+                    cave.Loot();
+                    break;
+                case "R":
+                    
+                    break;
+                case "X":
+                    System.Environment.Exit(0);
+                    break;
                 default:
                     Console.WriteLine("Input Error!");
                     break;
