@@ -17,20 +17,19 @@ namespace WumpusGame
             cave = new Cave(this);
             PrintIntro();
 
-            cave.DisplayMiniMap(player.GetCurPos());
-            cave.ParseCurrentRoom(player.GetCurPos());
-            player.GetStatus();
-
-            while (player.IsAlive==true)
+            bool CanContinue = true;
+            while (CanContinue)
             {
+                cave.DisplayMiniMap(player.GetCurPos());
+                CanContinue = cave.ParseCurrentRoom(player.GetCurPos());
+                if (CanContinue == false)
+                {
+                    break;
+                }
+                player.GetStatus();
                 Console.WriteLine("Enter Move (? for help) > ");
                 ParseInput(Console.ReadLine());
-                cave.DisplayMiniMap(player.GetCurPos());
-                cave.ParseCurrentRoom(player.GetCurPos());
-                player.GetStatus();
             }
-
-
             Console.Read();
         }
 

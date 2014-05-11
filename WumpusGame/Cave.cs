@@ -21,7 +21,7 @@ namespace WumpusGame
             Wall = 1 << 8,
             UnExplored = 1 << 9,
             Player = 1 << 10,
-            All = Wumpus | PitTrap | Gold | Weapon
+            All = Wumpus | PitTrap | Gold | Weapon | Entrance
         }
 
         private RoomType[,] map;
@@ -98,9 +98,11 @@ namespace WumpusGame
             }
         }
 
-        public void ParseCurrentRoom(Tuple<int, int> curPos)
+        public bool ParseCurrentRoom(Tuple<int, int> curPos)
         {
             RoomType room = map[curPos.Item1, curPos.Item2];
+            bool Continue = true;
+
             if (map[curPos.Item1, curPos.Item2].HasFlag(RoomType.Gold))
             {
                 ExploreRoom(curPos);
@@ -117,10 +119,13 @@ namespace WumpusGame
             }
             if (map[curPos.Item1, curPos.Item2].HasFlag(RoomType.PitTrap))
             {
+                Continue = false;
                 game.GetPlayer().IsAlive = false;
                 Console.WriteLine("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaahhhhhhhhhh noooooooooooooooooo Splat");
                 game.PrintGameOver();
             }
+
+            return Continue;
         }
 
         private void ExploreRoom(Tuple<int,int> curPos)
