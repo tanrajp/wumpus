@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WumpusGame
 {
@@ -200,16 +196,8 @@ namespace WumpusGame
             }
         }
 
-        public void DescribeSurroundings(Tuple<int,int> currentPos)
+        public void DescribeSurroundings(Tuple<int,int> currentPos) //fix this
         {
-            //RoomType[,] view = new RoomType[3, 3];
-            //view = CreateMiniView(currentPos);
-
-            //north = x--
-            //south = x++
-            //east = y++
-            //west - y--
-
             int x = currentPos.Item1;
             int y = currentPos.Item2;
 
