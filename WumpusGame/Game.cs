@@ -57,7 +57,7 @@ namespace WumpusGame
                     PrintHelp();
                     break;
                 case "L":
-                    cave.Loot();
+                    cave.Loot(player.GetCurPos());
                     break;
                 case "R":
                     cave.RunAway(player.GetCurPos());

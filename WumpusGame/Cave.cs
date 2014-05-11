@@ -130,6 +130,7 @@ namespace WumpusGame
                 if (game.GetPlayer().HasWeapon == true)
                 {
                     Continue = true;
+                    game.GetPlayer().SetCurrentScore(10);
                     Console.WriteLine("You slay the ugly beast with your sword");
                 }
                 if (game.GetPlayer().HasWeapon == false)
@@ -163,7 +164,17 @@ namespace WumpusGame
 
         private void ConvertWeaponRooms()
         {
-
+            for (int i = 1; i < 11; i++)
+            {
+                for (int y = 1; y < 11; y++)
+                {
+                    if (map[i, y].HasFlag(RoomType.Weapon))
+                    {
+                        map[i, y] &= ~RoomType.Weapon;
+                        map[i, y] |= RoomType.Gold;
+                    }
+                }
+            }
         }
 
         public void DisplayMiniMap(Tuple<int, int> currentPos)
@@ -267,6 +278,7 @@ namespace WumpusGame
             else if (map[curPos.Item1, curPos.Item2].HasFlag(RoomType.Weapon))
             {
                 map[curPos.Item1, curPos.Item2] &= ~RoomType.Weapon;
+                game.GetPlayer().HasWeapon = true;
                 game.GetPlayer().SetCurrentScore(5);
                 Console.WriteLine("You pick the mightly weapon");
                 ConvertWeaponRooms();
