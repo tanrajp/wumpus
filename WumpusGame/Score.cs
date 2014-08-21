@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace WumpusGame
 {
-    class Score
+    public class Score
     {
-
         private int currentScore;
 
         public Score()
@@ -16,14 +15,14 @@ namespace WumpusGame
             currentScore = 0;
         }
 
-        public int CurrentScore()
+        public void IncreaseScore()
         {
-            return currentScore;
+            currentScore++;
         }
 
-        public void IncreaseScore(int val)
+        public void DecreaseScore()
         {
-            currentScore += val;
+            currentScore--;
         }
     }
 }

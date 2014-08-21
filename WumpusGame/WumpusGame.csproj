@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Cave.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="ParseInput.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
